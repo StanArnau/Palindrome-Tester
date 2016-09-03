@@ -1,0 +1,86 @@
+<!doctype html>
+<html ng-app>
+
+<head>
+
+</head>
+
+<body>
+    <h3>Palindrom test</h3>
+    <input id="txtPalindrome" type="text" style="min-width:200px;max-width:98vw;" placeholder="Enter your Palindrome here">
+    <p>
+        <input id="btnTest" type="button" value="Test">
+        <input id="btnClear" type="button" value="Clear">
+    </p>
+    <p id="outPut"></p>
+    <script>
+        // global declaration section ************************************************************** onkeyup="Expand(this)"
+
+        var inputPalindrome;
+        var txtPalindromeLength;
+        txtBoxPalindrome = document.getElementById("txtPalindrome");
+        btnTest = document.getElementById("btnTest");
+
+         // events *************************************************************************************
+        txtBoxPalindrome.addEventListener("keypress", onEnterPress);
+        txtBoxPalindrome.addEventListener("keyup", Expand);
+        btnTest.addEventListener("click", testPalindrome);
+        document.getElementById("btnClear").addEventListener("click", resetPalindrome);
+
+        window.onload = function() {
+            txtBoxPalindrome.focus();
+        };
+
+        function Expand() {
+            if (!txtBoxPalindrome.savesize) txtBoxPalindrome.savesize = txtBoxPalindrome.size;
+            txtBoxPalindrome.size = Math.max(txtBoxPalindrome.savesize, txtBoxPalindrome.value.length);
+        }
+
+        function onEnterPress(e) {
+            if (e.keyCode == 13) {
+                testPalindrome();
+            }
+        }
+
+        function resetPalindrome() {
+            location.reload();
+        }
+
+        function testPalindrome() {
+
+            // module declaration section **************************************************************
+
+            var arrInputPalindrome, arrOutputPalindrome, arrTempPalindrome;
+            const clnStrRegex = /[0-9\s\W]+/g;
+
+            // code section ****************************************************************************
+
+            inputPalindrome = txtBoxPalindrome.value;
+            arrTempPalindrome = inputPalindrome.replace(clnStrRegex, '').toLowerCase().trim().split('');
+            //console.log("arrTempPalindrome after normalization: " + arrTempPalindrome);
+            arrInputPalindrome = arrTempPalindrome.slice();
+            arrOutputPalindrome = arrInputPalindrome.reverse().slice();
+            arrInputPalindrome = arrTempPalindrome.slice();
+
+            function compareArrays() {
+                for (i = 0; i < arrInputPalindrome.length; i++) {
+                    if (arrInputPalindrome[i] != arrOutputPalindrome[i]) {
+                        return false;
+                        break;
+                    }
+                }
+                return true;
+            }
+            if (compareArrays() && (arrInputPalindrome.length > 0)) {
+                resetPalindrome();
+                alert("This is a Palindrome.");
+            } else {
+                resetPalindrome();
+                alert("This is NOT a Palindrome.");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
